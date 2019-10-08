@@ -15,20 +15,30 @@ import workflows from './workflows';
 const workflowsUrl = uiUrl('workflows');
 const helpUrl = uiUrl('help');
 const timelineUrl = uiUrl('timeline');
+const calendarUrl= uiUrl('calendar');
+const scheduleUrl = uiUrl('schedule');
+
 const routes: {[path: string]: { component: React.ComponentType<RouteComponentProps<any>> } } = {
     [workflowsUrl]: { component: workflows.component },
+    [scheduleUrl]: { component: workflows.component},
     [helpUrl]: { component: help.component },
 };
 
 const navItems = [{
     title: 'Timeline',
+    // TODO: Add route for schedule.component
     path: workflowsUrl,
     iconClassName: 'argo-icon-timeline',
+}, {
+    title: 'Calendar',
+    path: scheduleUrl,
+    iconClassName: 'argo-icon-calendar',
 }, {
     title: 'Help',
     path: helpUrl,
     iconClassName: 'argo-icon-docs',
-}];
+}
+];
 
 export class App extends React.Component<{}, { popupProps: PopupProps }> {
     public static childContextTypes = {
@@ -65,6 +75,16 @@ export class App extends React.Component<{}, { popupProps: PopupProps }> {
                                 router.history.push(router.route.location.pathname.replace(timelineUrl, workflowsUrl));
                             }
                         } }/>
+                        <Route path={calendarUrl} component={ class ToSchedule extends React.Component {
+                            public static contextTypes = { router: PropTypes.object };
+                            public render() {return <div/>; }
+                            public componentWillMount() {
+                                const router = (this.context as AppContext).router;
+                                router.history.push(router.route.location.pathname.replace(calendarUrl, scheduleUrl));
+                                //router.history.push(router.route.location.pathname);
+                            }
+                        } }/>
+
                         <Layout navItems={navItems}>
                             <Notifications notifications={this.notificationsManager.notifications}/>
                             {Object.keys(routes).map((path) => {
