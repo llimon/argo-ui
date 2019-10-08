@@ -11,6 +11,7 @@ export const history = createHistory();
 
 import help from './help';
 import workflows from './workflows';
+import schedule from './schedule';
 
 const workflowsUrl = uiUrl('workflows');
 const helpUrl = uiUrl('help');
@@ -20,13 +21,12 @@ const scheduleUrl = uiUrl('schedule');
 
 const routes: {[path: string]: { component: React.ComponentType<RouteComponentProps<any>> } } = {
     [workflowsUrl]: { component: workflows.component },
-    [scheduleUrl]: { component: workflows.component},
+    [scheduleUrl]: { component: schedule.component},
     [helpUrl]: { component: help.component },
 };
 
 const navItems = [{
     title: 'Timeline',
-    // TODO: Add route for schedule.component
     path: workflowsUrl,
     iconClassName: 'argo-icon-timeline',
 }, {
